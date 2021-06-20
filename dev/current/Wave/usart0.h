@@ -16,11 +16,12 @@
 
 //  TRANSMISION STATUS
 #define UCSR0A_RXC       ( 1<<RXC0 )
-#define usart0_rx_complete()   ( UCSR0A & UCSR0A_RXC )
+#define usart0_rx_complete()   ( bit_is_set( UCSR0A, RXC0 ) )
 #define UCSR0A_TXC       ( 1<<TXC0 )
-#define usart0_tx_complete()   ( UCSR0A & UCSR0A_TXC )
+#define usart0_tx_complete()   ( bit_is_set( UCSR0A, TXC0 ) )
 #define UCSR0A_UDRE       ( 1<<UDRE0 )
-#define usart0_tx_empty()   ( UCSR0A & UCSR0A_UDRE )
+#define usart0_tx_empty()   ( bit_is_set( UCSR0A, UDRE0 ) )
+#define usart0_wait_tx_empty()   { loop_until_bit_is_set( UCSR0A, UDRE0 ); }
 
 //  FRAME ERROR
 #define UCSR0A_ERROR      ( ( 1<<FE0 ) | ( 1<<DOR0 ) | ( 1<<PE0 ) )
@@ -33,7 +34,7 @@
 
 //  MULTI PROCESSOR COMMUNICATION BIT
 #define UCSR0A_MPCM       ( 1<<MPCM0 )
-#define usart0_multiprocessor_status()     ( UCSR0A & UCSR0A_MPCM )
+#define usart0_multiprocessor_status()     ( bit_is_set( UCSR0A, MPCM0 ) )
 #define usart0_multiprocessor_enable()      { UCSR0A |= UCSR0A_MPCM; }
 #define usart0_multiprocessor_disable()     { UCSR0A &= ~UCSR0A_MPCM; }
 uint8_t usart0_multiprocessor_slave_address = 0;
@@ -90,12 +91,13 @@ uint8_t usart0_multiprocessor_slave_address = 0;
 
 //  DATA REGISTERS
 #define usart0_write_8(data)    { UDR0 = data; }
-#define usart0_write_8_sync(data)    { while ( !usart0_tx_empty() );  usart0_write_8(data); }
+#define usart0_write_8_sync(data)    { usart0_wait_tx_empty();  usart0_write_8(data); }
+//  #define usart0_write_8_sync(data)    { while ( !usart0_tx_empty() );  usart0_write_8(data); }
+
 //  write 9th bit first
 #define usart0_write_9(data)    { \
 if ( data > 255 ) { usart0_set_9th_bit(); } else { usart0_clear_9th_bit(); } \ usart0_write_8(data); }
-
-#define usart0_write_9_sync(data)    { while ( !usart0_tx_empty() );  usart0_write_9(data); }
+#define usart0_write_9_sync(data)    { usart0_wait_tx_empty();  usart0_write_9(data); }
 
 #define usart0_read_8()    ( UDR0 )
 //  read 9th bit first
@@ -129,6 +131,7 @@ void usart0_set_baudrate ( uint32_t baud ) {
   usart0_x2_enable();
 }
 
+#define printBYTE usart0_write_8_sync
 
 void printBIN(uint8_t b) {
   uint8_t x = 0;
@@ -176,4 +179,25 @@ void printDEC(uint8_t b) {
   usart0_write_8_sync(' ');
 }
 
-#define printBYTE usart0_write_8_sync
+ISR(USART_RX_vect) {
+  uint8_t data;
+  if ( usart0_read_9th_bit() ) {
+    data = usart0_read_8();
+    //  MULTI PROCESSOR COMMUNICATION MODE
+    if ( usart0_multiprocessor_status() ) {
+      if ( data == usart0_multiprocessor_slave_address ) {
+        usart0_multiprocessor_disable();
+      } else {
+        usart0_multiprocessor_enable();
+      }
+    } else {
+      // Normal 9 bits data reception,  NOT IMPLEMENTED      
+    }
+  } else {
+    data = usart0_read_8();
+    //  DATA RECEIVED, 8 bits or MPCM 9 bits ( 1 address and 8 data )
+    
+  }
+}
+
+

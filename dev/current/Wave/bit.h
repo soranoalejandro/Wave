@@ -1,5 +1,7 @@
 #pragma once
 #include <stdint.h>
+#define set_bit( s, b) ( s |= _BV( b ) )
+#define clear_bit( s, b) ( s &= ~_BV( b ) )
 
 #define lower_nible( B ) ( B & 0x0f )
 #define upper_nible( B ) ( B & 0xf0 )

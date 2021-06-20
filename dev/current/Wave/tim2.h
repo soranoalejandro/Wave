@@ -50,3 +50,8 @@
 #define tim2_set_outmode_a(m)   { TCCR2A = ( TCCR2A & 0b00111111 ) | ( m << 6); }
 #define tim2_set_outmode_b(m)   { TCCR2A = ( TCCR2A & 0b11001111 ) | ( ( m & 0b00000011) << 4); }
 #define tim2_set_waveform_mode(w)   { TCCR2A = ( TCCR2A & 0b11111100 ) | ( w & 0b00000011 ); }
+
+ISR (TIMER2_OVF_vect)
+{
+  PF( TICK );
+}

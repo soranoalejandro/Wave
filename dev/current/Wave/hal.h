@@ -3,6 +3,8 @@
 #include "oscilator.h"
 #include "gpr.h"
 
+#include "pf.h"
+
 #include "ac0.h"
 #include "adc0.h"
 #include "usart0.h"
