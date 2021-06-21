@@ -5,8 +5,8 @@
     PCICR : PCIEn   = Interrupt enable
     PCMSKn  = Pin mask  */
 
-#define set_bit( s, b) ( s |= _BV( b ) )
-#define clear_bit( s, b) ( s &= ~_BV( b ) )
+//#define set_bit( s, b) ( s |= _BV( b ) )
+//#define clear_bit( s, b) ( s &= ~_BV( b ) )
 
 
 
