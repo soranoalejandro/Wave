@@ -44,12 +44,12 @@ volatile uint8_t pci0_auto_off = 0,  pci1_auto_off = 0,  pci2_auto_off = 0;
 uint8_t pci0_notify[ 8 ];
 uint8_t pci1_notify[ 8 ];
 uint8_t pci2_notify[ 8 ];
-bool pci0_event = false,  pci1_event = false,  pci2_event = false;
+volatile bool pci0_event = false,  pci1_event = false,  pci2_event = false;
 
 
 ISR( PCINT2_vect )  {    // PORT D PIN CHANGE
   uint8_t current = PIND;
-  static uint8_t pci2_last_state = 0;
+  static uint8_t pci2_last_state = 0xff;
   uint8_t changed = ( pci2_last_state ^ current ) & PCMSK2;
   pci2_last_state = current;
   if ( changed == 0 ) return;

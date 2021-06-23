@@ -104,7 +104,7 @@ if ( data > 255 ) { usart0_set_9th_bit(); } else { usart0_clear_9th_bit(); } \ u
 #define usart0_read_9()    ( ( 255 * usart0_read_9th_bit() ) + usart0_read_8() )
 
 
-#define usart0_set_budrate_default()  { UBRR0H = 0; UBRR0L = (OSC_FREQUENCY / 8 / 1000000 - 1); usart0_x2_enable(); }
+#define usart0_set_budrate_default()  { UBRR0H = 0; UBRR0L = (OSC_FREQUENCY / 8 / 2000000 - 1); usart0_x2_enable(); }
 #define usart0_begin()  { UCSR0B |= 0b00011000; }
 #define usart0_init_default() { UCSR0B = 0; UCSR0A = 0; UCSR0C = 0b00000110; usart0_set_budrate_default(); usart0_begin(); }
 
