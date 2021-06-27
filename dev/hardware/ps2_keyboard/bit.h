@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
-#define set_bit( s, b) ( s |= _BV( b ) )
-#define clear_bit( s, b) ( s &= ~_BV( b ) )
+#define set_bit( s, b ) ( s |= _BV( b ) )
+#define clear_bit( s, b ) ( s &= ~_BV( b ) )
 //  defined in <avr/sfr_defs.h>
 //  bit_is_set(sfr, bit), bit_is_clear(sfr, bit), loop_until_bit_is_set(sfr, bit), loop_until_bit_is_clear(sfr, bit)
 

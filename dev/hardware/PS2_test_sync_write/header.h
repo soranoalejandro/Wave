@@ -1,6 +1,3 @@
-
-
-
 #include "bit.h"
 
 //  OSCILATOR FREQUENCY
@@ -13,3 +10,4 @@ const uint8_t HEX_TO_ASCII_TABLE [16] = {
 #define DIGIT_TO_ASCII(d) ( HEX_TO_ASCII_TABLE[ d ] )
 
 #include "usart0.h"
+#include "keyboard_scan_codes.h"

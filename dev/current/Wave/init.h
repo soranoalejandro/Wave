@@ -5,5 +5,4 @@
 void setup () {
   dm1_init();
   hal_init();
-  
 }

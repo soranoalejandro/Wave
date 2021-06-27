@@ -5,6 +5,8 @@
 #define tim2_enable()  { PRR &= ~PRR_TIM2; }
 #define tim2_disable() { PRR |= PRR_TIM2; }
 
+#define tim2_enable_interrupt()     { set_bit( TIMSK2, TOIE2 ); }
+#define tim2_disable_interrupt()    { clear_bit( TIMSK2, TOIE2 ); }
 
 /* 
   OCR2A   Timer 2 set value A
@@ -53,5 +55,7 @@
 
 ISR (TIMER2_OVF_vect)
 {
-  PF( TICK );
+  trace( 4, 0);
+  //printBYTE( TIMER + '0' );
+  //printBYTE( '\n' );
 }

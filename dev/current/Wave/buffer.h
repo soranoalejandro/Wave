@@ -17,8 +17,18 @@ typedef struct {
 } buffer_paged;
 
 
+//  C CIRCULAR BUFFER
 
+//  BY VALUE
 #define bufferc_add( data, head, array )  { \
+  if ( head.len <= head.last ) { \
+    array[ head.end++ ] = data; \
+    head.end &= head.last; \
+    head.len++; \
+  } \
+}
+
+#define bufferc_add_n( data, head, array, elements )  { \
   if ( head.len <= head.last ) { \
     array[ head.end++ ] = data; \
     head.end &= head.last; \
@@ -34,6 +44,32 @@ typedef struct {
   } \
 }
 
+//  BY REFFERENCE
+#define bufferc_add_ref( data, head, array )  { \
+  if ( head->len <= head->last ) { \
+    array[ head->end++ ] = data; \
+    head->end &= head->last; \
+    head->len++; \
+  } \
+}
+
+#define bufferc_addn_ref( data, head, array, elements )  { \
+  if ( head->len <= head->last ) { \
+    array[ head->end++ ] = data; \
+    head->end &= head->last; \
+    head->len++; \
+  } \
+}
+
+#define bufferc_get_ref( data, head, array )  { \
+  if ( head->len > 0 ) { \
+    data = array[ head->start++ ]; \
+    head->start &= head->last; \
+    head->len--; \
+  } \
+}
+
+//  PAGED BUFFER
 #define bufferp_add( data, head, array )  { \
   if ( head.len <= head.last ) { \
     array[ head.end++ ] = data; \

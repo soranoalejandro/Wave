@@ -14,7 +14,6 @@
 #define release_da()  { clear_bit( DDRD, DA );    set_bit( PORTD, DA ); }
 
 void setup() {
-  // put your setup code here, to run once:
   cli();
   usart0_init_default();
   release_ck();
@@ -46,14 +45,20 @@ void loop() {
     wait_ck_low();  wait_ck_high();
     //  STOP
     wait_ck_low();  wait_ck_high();
-    printHEX(frame);
+    
     switch (frame) {
       case 0xf0:
       case 0xe0:
       case 0xe1:
-      printBYTE(' ');
+        printHEX(frame);
       break;
       default:
+        uint8_t d = keyboard_scan_codeset_2[ frame ];
+        if ( d == 0) {
+          printHEX(frame);
+        } else {
+          printBYTE( d );
+        }
         printBYTE('\n');
       break;
     }
