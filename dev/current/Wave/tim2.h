@@ -7,6 +7,10 @@
 
 #define tim2_enable_interrupt()     { set_bit( TIMSK2, TOIE2 ); }
 #define tim2_disable_interrupt()    { clear_bit( TIMSK2, TOIE2 ); }
+#define tim2_enable_cmpa_interrupt()     { set_bit( TIMSK2, OCIE2A ); }
+#define tim2_disable_cmpa_interrupt()    { clear_bit( TIMSK2, OCIE2A ); }
+#define tim2_enable_cmpb_interrupt()     { set_bit( TIMSK2, OCIE2B ); }
+#define tim2_disable_cmpb_interrupt()    { clear_bit( TIMSK2, OCIE2B ); }
 
 /* 
   OCR2A   Timer 2 set value A
@@ -53,9 +57,16 @@
 #define tim2_set_outmode_b(m)   { TCCR2A = ( TCCR2A & 0b11001111 ) | ( ( m & 0b00000011) << 4); }
 #define tim2_set_waveform_mode(w)   { TCCR2A = ( TCCR2A & 0b11111100 ) | ( w & 0b00000011 ); }
 
+ISR (TIMER2_COMPA_vect)
+{
+  trace( TIMER );
+  //printBYTE( TIMER + '0' );
+  //printBYTE( '\n' );
+}
+
 ISR (TIMER2_OVF_vect)
 {
-  trace( 4, 0);
+  trace( TIMER );
   //printBYTE( TIMER + '0' );
   //printBYTE( '\n' );
 }

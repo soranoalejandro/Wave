@@ -1,5 +1,5 @@
 //  MAP SINGLE DIGIT MAKE CODES TO ASCII IF ANY
-#include <stdint.h>
+//#include <stdint.h>
 const uint8_t keyboard_scan_codeset_2 [0x90] =
 { 0, 0, 0, 0, 0, 0, 0, 0,               0, 0, 0, 0, 0, '\t', '`', 0,  //  0-
   0, 0, 0, 0, 0, 'Q', '1', 0,           0, 0, 'Z', 'S', 'A', 'W', '2', 0,  //  1-

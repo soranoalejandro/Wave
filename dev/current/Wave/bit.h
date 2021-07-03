@@ -9,7 +9,7 @@
     When porting for other architectures use the corresponding specyfic library
     or fill the standard C equivalent. */
 
-#include <stdint.h>
+//#include <stdint.h>
 
 
 //  BIT

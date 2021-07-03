@@ -1,3 +1,3 @@
 #pragma once
-#include <stdint.h>
+//#include <stdint.h>
 #include "bit.h"
