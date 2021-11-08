@@ -60,13 +60,13 @@
 ISR (TIMER2_COMPA_vect)
 {
   trace( TIMER );
-  //printBYTE( TIMER + '0' );
-  //printBYTE( '\n' );
+  ++trace_sequence;
+  trace( trace_sequence );
 }
 
 ISR (TIMER2_OVF_vect)
 {
   trace( TIMER );
-  //printBYTE( TIMER + '0' );
-  //printBYTE( '\n' );
+  ++trace_sequence;
+  trace( trace_sequence );
 }
